@@ -106,4 +106,4 @@ MIT License — see `LICENSE` for details.
 ## Contact
 
 Dr. Azad Rasul — Salahaddin University-Erbil, Department of Forestry
-[email / ResearchGate / other contact link]
+azad.rasul@soran.edu.iq
