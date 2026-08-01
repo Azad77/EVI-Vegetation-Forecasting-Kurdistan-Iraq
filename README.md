@@ -89,7 +89,7 @@ All outputs used in the manuscript's tables and figures are also provided pre-co
 ## Reproducibility notes
 
 - Random seeds are fixed (`np.random.seed(42)`, `tf.random.set_seed(42)`) at notebook start; however, exact bitwise reproducibility of deep-learning training is not guaranteed across different hardware/driver/TensorFlow-version combinations, which is expected behavior for GPU-accelerated training.
-- This repository and its contents were verified to run end-to-end in a clean environment as of [DATE — fill in when you do the verification run].
+- This repository and its contents were verified to run end-to-end in a clean environment as of 01/08/2026.
 
 ## Citation
 
