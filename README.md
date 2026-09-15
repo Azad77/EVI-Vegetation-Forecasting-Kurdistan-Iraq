@@ -7,8 +7,7 @@ climate data (2016–2024).
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20276859.svg)](https://doi.org/10.5281/zenodo.20276859)
 
-This repository accompanies the manuscript *"[manuscript title]"* (submitted to
-*[journal name]*). It contains the complete pipeline from data extraction through
+This repository accompanies a manuscript that is currently under peer review. It contains the complete pipeline from data extraction through
 model training, uncertainty quantification, and future forecasting.
 
 ---
@@ -95,7 +94,7 @@ All outputs used in the manuscript's tables and figures are also provided pre-co
 
 If you use this code or data, please cite:
 
-> [Author names]. ([Year]). *[Manuscript title]*. [Journal name]. [DOI once assigned]
+> Until the article is published, please cite the repository archive below. The article reference will be added here once it is available.
 
 Repository archive: [https://doi.org/10.5281/zenodo.20276859](https://doi.org/10.5281/zenodo.20276859)
 
