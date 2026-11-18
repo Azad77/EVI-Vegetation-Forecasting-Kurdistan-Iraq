@@ -169,7 +169,10 @@ If you use this code or data, please cite:
 
 > Until the article is published, please cite the repository archive below. The article reference will be added here once it is available.
 
-Repository archive: [https://doi.org/10.5281/zenodo.20276859](https://doi.org/10.5281/zenodo.20276859) (v1.0.0, original submission). The corrected, leakage-free code is archived from release **v2.0.0** onwards; please cite that version's DOI (listed under "Versions" on the Zenodo record).
+Repository archive (Zenodo):
+- **Version 2.0.0, leakage-free revision (cite this version):** [https://doi.org/10.5281/zenodo.24351353](https://doi.org/10.5281/zenodo.24351353)
+- Version 1.0.0, original submission (superseded): [https://doi.org/10.5281/zenodo.20276860](https://doi.org/10.5281/zenodo.20276860)
+- All versions (concept DOI, resolves to the latest): [https://doi.org/10.5281/zenodo.20276859](https://doi.org/10.5281/zenodo.20276859)
 
 ## License
 
