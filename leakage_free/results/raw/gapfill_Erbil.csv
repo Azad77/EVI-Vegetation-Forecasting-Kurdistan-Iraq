@@ -1,0 +1,16 @@
+variant,seed,R2,region,n_dropped,n_gap_months
+full,0,0.8781571439947212,Erbil,5,2
+excl_gapfilled,0,0.8368000239941817,Erbil,5,2
+random_drop,0,0.8355821379670707,Erbil,5,2
+full,1,0.8651524966820672,Erbil,5,2
+excl_gapfilled,1,0.8682698895511831,Erbil,5,2
+random_drop,1,0.8624233890724633,Erbil,5,2
+full,2,0.9199028528568746,Erbil,5,2
+excl_gapfilled,2,0.8942986268270173,Erbil,5,2
+random_drop,2,0.8949506869682665,Erbil,5,2
+full,3,0.9231239624905244,Erbil,5,2
+excl_gapfilled,3,0.853139158966631,Erbil,5,2
+random_drop,3,0.85316793809,Erbil,5,2
+full,4,0.9283161045739958,Erbil,5,2
+excl_gapfilled,4,0.891418462905834,Erbil,5,2
+random_drop,4,0.8852175795184221,Erbil,5,2

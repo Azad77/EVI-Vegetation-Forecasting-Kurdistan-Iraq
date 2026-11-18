@@ -1,0 +1,16 @@
+variant,seed,R2,region,n_dropped,n_gap_months
+full,0,0.9561136599352172,Halabja,18,6
+excl_gapfilled,0,0.7608639669256887,Halabja,18,6
+random_drop,0,0.922537304281681,Halabja,18,6
+full,1,0.9440985550227236,Halabja,18,6
+excl_gapfilled,1,0.8569396738553918,Halabja,18,6
+random_drop,1,0.9111535784858111,Halabja,18,6
+full,2,0.950330618868395,Halabja,18,6
+excl_gapfilled,2,0.8485966654177289,Halabja,18,6
+random_drop,2,0.927674175999398,Halabja,18,6
+full,3,0.9388251764182607,Halabja,18,6
+excl_gapfilled,3,0.8801244251533605,Halabja,18,6
+random_drop,3,0.9418495438845732,Halabja,18,6
+full,4,0.9417299486800809,Halabja,18,6
+excl_gapfilled,4,0.9113511536627682,Halabja,18,6
+random_drop,4,0.9255452049652931,Halabja,18,6

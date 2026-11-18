@@ -1,0 +1,16 @@
+variant,seed,R2,region,n_dropped,n_gap_months
+full,0,0.8759118563050848,Duhok,1,1
+excl_gapfilled,0,0.8895554998998974,Duhok,1,1
+random_drop,0,0.8945868801116555,Duhok,1,1
+full,1,0.8807420862944367,Duhok,1,1
+excl_gapfilled,1,0.8910418336357154,Duhok,1,1
+random_drop,1,0.8725797787275116,Duhok,1,1
+full,2,0.9371938977540514,Duhok,1,1
+excl_gapfilled,2,0.9152356093811579,Duhok,1,1
+random_drop,2,0.923910610630544,Duhok,1,1
+full,3,0.9156961018739159,Duhok,1,1
+excl_gapfilled,3,0.9045927399836708,Duhok,1,1
+random_drop,3,0.9057548564708627,Duhok,1,1
+full,4,0.9160742331680372,Duhok,1,1
+excl_gapfilled,4,0.9124930834063694,Duhok,1,1
+random_drop,4,0.9086022290689468,Duhok,1,1

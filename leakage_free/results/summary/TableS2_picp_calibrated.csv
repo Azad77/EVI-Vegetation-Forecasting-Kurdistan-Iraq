@@ -1,0 +1,4 @@
+model,raw_PICP,raw_width,ens_PICP,ens_width,k,cal_PICP,cal_width
+BiLSTM_GRU,0.491,0.033,0.529,0.037,5.3,0.982,0.169
+CNN_BiLSTM_GRU,0.685,0.044,0.824,0.053,2.973,0.968,0.121
+CNN_Transformer,0.488,0.034,0.779,0.072,6.989,0.959,0.238
