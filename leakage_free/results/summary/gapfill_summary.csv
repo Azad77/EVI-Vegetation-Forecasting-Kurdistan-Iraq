@@ -1,0 +1,13 @@
+region,variant,mean,std
+Duhok,excl_gapfilled,0.903,0.012
+Duhok,full,0.905,0.026
+Duhok,random_drop,0.901,0.019
+Erbil,excl_gapfilled,0.869,0.025
+Erbil,full,0.903,0.029
+Erbil,random_drop,0.866,0.024
+Halabja,excl_gapfilled,0.852,0.056
+Halabja,full,0.946,0.007
+Halabja,random_drop,0.926,0.011
+Sulaymaniyah,excl_gapfilled,0.925,0.02
+Sulaymaniyah,full,0.936,0.02
+Sulaymaniyah,random_drop,0.927,0.016

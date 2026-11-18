@@ -10,18 +10,69 @@ climate data (2016–2024).
 This repository accompanies a manuscript that is currently under peer review. It contains the complete pipeline from data extraction through
 model training, uncertainty quantification, and future forecasting.
 
+> ## ⚠️ Correction (November 2026): leakage-free re-run
+>
+> During the IJRS minor revision we found that the original notebook let the **test set leak into training**:
+> the test windows were used as `validation_data` for `EarlyStopping(restore_best_weights=True)` and
+> `ReduceLROnPlateau`, and the scalers and gap-filling climatology were fitted on all 108 months, including the
+> test period. All experiments were re-run with a leakage-free protocol (see below), and **the results reported in
+> the revised manuscript come from [`leakage_free/`](leakage_free/)**. The original notebooks and outputs are kept,
+> clearly marked, in [`archive/original_submission/`](archive/original_submission/) and should not be used.
+>
+> Effect of the fix (mean test R² over 4 governorates × 5 seeds, 17 test months Aug 2023 – Dec 2024):
+>
+> | | Original protocol | Leakage-free |
+> |---|---|---|
+> | BiLSTM (previous best model) | 0.945 (published) | 0.766 (early-stopping rule) / 0.911 (fixed 100 epochs) |
+> | Best models | — | CNN-BiLSTM 0.923, CNN-BiLSTM-GRU 0.922, CNN-GRU 0.915 |
+> | Climatological mean baseline | — | 0.778 |
+>
+> The CNN-recurrent and recurrent models keep clear skill over the seasonal cycle, but the accuracies are lower than
+> first reported and differences among the leading models are within seed-to-seed variability.
+> **CNN-BiLSTM-GRU**, ranked in the top two under both training rules, is now the reference model for the
+> uncertainty analysis and the scenario forecasts.
+
+---
+
+## Leakage-free protocol (used for all reported results)
+
+- **Split:** chronological. 24-month input windows; the last **17** targets (Aug 2023 – Dec 2024) form the test set,
+  the preceding 67 windows the training set.
+- **Preprocessing:** z-score scalers and the climatology used for gap-filling are fitted on **training months only**.
+- **Training rule A (main tables):** train on the first 55 training windows, early-stop on the last 12
+  (Aug 2022 – Jul 2023), then refit on all 67 training windows for the selected number of epochs.
+- **Training rule B (robustness):** fixed 100 epochs on all 67 training windows, no callbacks.
+- **Evaluation:** the test set is used once, for scoring only. 5 random seeds per model and governorate;
+  results are reported as mean ± SD. Skill is also reported relative to a training-period climatology
+  (MSE skill score, anomaly correlation), because R² is dominated by the seasonal cycle.
+- **Uncertainty:** MC Dropout (dropout active, BatchNorm in inference mode), calibrated post hoc with a variance
+  factor *k* fitted on the last 12 training windows (k ≈ 3.0 for CNN-BiLSTM-GRU); calibrated coverage 96–98%.
+- **Additional analyses:** leave-one-governorate-out spatial transfer, input ablation, gap-filling sensitivity,
+  and 2025–2030 climate-scenario forecasts (stationary, P −20%, T +2 °C, hot-dry, recurring 2022 drought).
+
+See [`leakage_free/README.md`](leakage_free/README.md) for the scripts, outputs and how to re-run them.
+
 ---
 
 ## Repository structure
 
 ```
-├── notebooks/     # Main analysis notebook (Google Colab)
-├── data/          # Processed CSV datasets (EVI, climate, model outputs, forecasts)
+├── leakage_free/              # CORRECTED code and results used in the revised manuscript
+│   ├── src/                   #   scripts (benchmark, baselines, transfer, ablation, MC dropout, scenarios)
+│   ├── results/raw/           #   per-governorate outputs (all seeds, all test-month predictions)
+│   ├── results/summary/       #   manuscript tables (Table 2, Table 4, Tables S2/S4, skill scores)
+│   └── run_all.sh
+├── archive/original_submission/  # SUPERSEDED notebooks and outputs (contain the test-set leakage)
+├── data/          # Input datasets: monthly EVI + climate per governorate (2016–2024)
 ├── shapefiles/    # Governorate boundary shapefiles (Erbil, Duhok, Sulaymaniyah, Halabja)
-├── requirements.txt
+├── requirements.txt           # environment of the original notebook (GEE extraction, maps)
 ├── LICENSE
 └── README.md
 ```
+
+The **data extraction** (Google Earth Engine), study-area maps and descriptive statistics are still done with the
+original notebook (stages 1–4 below); those stages are not affected by the leakage. **All modelling, evaluation,
+uncertainty and forecasting results must be taken from `leakage_free/`.**
 
 ## Requirements
 
@@ -42,7 +93,7 @@ pip install -r requirements.txt
 
 ## Setup
 
-1. **Clone the repository** (or open `notebooks/EVI_Vegetation_Health_Forecasting.ipynb` directly in Google Colab via GitHub → Colab integration).
+1. **Clone the repository** (or open `archive/original_submission/notebooks/EVI_Vegetation_Health_Forecasting_REVISED_01_08_2026.ipynb` in Google Colab for the GEE extraction stages).
 
 2. **Google Earth Engine authentication.** The notebook's GEE initialization cell handles this automatically depending on environment (Colab auth, saved credentials, or service account), but for a first-time run:
    ```python
@@ -57,6 +108,18 @@ pip install -r requirements.txt
 4. **Pre-extracted data (optional, faster start).** If you want to skip the GEE extraction step (which can take significant time depending on GEE quota) and go straight to modeling, the already-extracted `evi_climate_kurdistan_2016_2024.csv` is provided in `data/` — place it in your working directory and skip to Run Order step 3 below.
 
 ## Run order
+
+### Corrected modelling pipeline (leakage-free)
+
+```bash
+pip install -r leakage_free/requirements.txt
+bash leakage_free/run_all.sh          # all experiments (CPU, several hours)
+python leakage_free/src/summarize.py  # rebuild the summary tables from the raw outputs only (seconds)
+```
+
+### Original notebook (superseded for stages 5–10)
+
+> Stages 5–10 of the original notebook contain the leakage described above and are kept for reference only.
 
 The notebook is organized into numbered cells; run them top to bottom. Approximate runtime is noted for the slower stages (on a standard Colab GPU runtime):
 
@@ -77,18 +140,28 @@ Total end-to-end runtime (excluding GEE extraction): **approximately 1–2 hours
 
 ## Outputs
 
-Running the full notebook produces, among others:
-- `evi_model_metrics.csv` — MSE/MAE/R²/Accuracy for all 9 models × 4 governorates
+Corrected results (`leakage_free/results/summary/`):
+- `Table2_leakfree_mean.csv`, `Table_by_model_region_leakfree.csv` — 9 models, rule A, mean ± SD over 5 seeds
+- `Table2_fixed100_mean.csv`, `neural_baselines_fixed100.csv`, `baselines_17m.csv` — rule B and baselines
+- `skill_vs_climatology.csv` — MSE skill score and anomaly R²/r against the training-period climatology
+- `TableS2_picp_calibrated.csv`, `TableS4_logo_transfer.csv`, `ablation_summary.csv`, `gapfill_summary.csv`
+- `scenario_forecasts_2025_2030.csv`, `Table4_scenarios.csv` — CNN-BiLSTM-GRU scenario forecasts with calibrated bands
+
+Running the original notebook produces, among others (superseded where marked):
+- `evi_model_metrics.csv` — MSE/MAE/R²/Accuracy for all 9 models × 4 governorates (**superseded**, leaky protocol; now in `archive/original_submission/data/`)
 - `evi_historical_2016_2024.csv`, `precip_historical_2016_2024.csv`, `temp_historical_2016_2024.csv` — processed historical records
-- `evi_forecasts_5year_2026_2030.csv`, `evi_forecasts_10year_2026_2035.csv` — stationary-climatology forecast outputs
+- `evi_forecasts_5year_2026_2030.csv`, `evi_forecasts_10year_2026_2035.csv` — stationary-climatology forecast outputs (**superseded**; replaced by `leakage_free/results/summary/scenario_forecasts_2025_2030.csv`)
 - Figures: study area map, EVI/climate time series, annual statistics, model comparison, loss curves, prediction-vs-truth plots, MC-Dropout uncertainty bands, forecast plots
 
-All outputs used in the manuscript's tables and figures are also provided pre-computed in `data/` for readers who do not wish to re-run the full pipeline.
+All outputs used in the revised manuscript's tables and figures are provided pre-computed in `leakage_free/results/` for readers who do not wish to re-run the full pipeline.
 
 ## Reproducibility notes
 
 - Random seeds are fixed (`np.random.seed(42)`, `tf.random.set_seed(42)`) at notebook start; however, exact bitwise reproducibility of deep-learning training is not guaranteed across different hardware/driver/TensorFlow-version combinations, which is expected behavior for GPU-accelerated training.
-- This repository and its contents were verified to run end-to-end in a clean environment as of 01/08/2026.
+- The leakage-free scripts fix seeds 0–4 with `tf.keras.utils.set_random_seed` and run single-threaded on CPU (TensorFlow 2.21).
+- `leakage_free/src/leakage_check.py` reproduces the original (leaky) and corrected protocols side by side for BiLSTM.
+- `leakage_free/src/summarize.py` regenerates every summary table from the raw outputs; it was checked to reproduce the manuscript numbers exactly.
+- The original notebook was verified to run end-to-end in a clean environment as of 01/08/2026.
 
 ## Citation
 
@@ -96,7 +169,7 @@ If you use this code or data, please cite:
 
 > Until the article is published, please cite the repository archive below. The article reference will be added here once it is available.
 
-Repository archive: [https://doi.org/10.5281/zenodo.20276859](https://doi.org/10.5281/zenodo.20276859)
+Repository archive: [https://doi.org/10.5281/zenodo.20276859](https://doi.org/10.5281/zenodo.20276859) (v1.0.0, original submission). The corrected, leakage-free code is archived from release **v2.0.0** onwards; please cite that version's DOI (listed under "Versions" on the Zenodo record).
 
 ## License
 

@@ -1,0 +1,16 @@
+variant,seed,R2,region,n_dropped,n_gap_months
+full,0,0.954386746257317,Sulaymaniyah,1,1
+excl_gapfilled,0,0.9159527180002376,Sulaymaniyah,1,1
+random_drop,0,0.9149300011991407,Sulaymaniyah,1,1
+full,1,0.937106081298725,Sulaymaniyah,1,1
+excl_gapfilled,1,0.9431235510265754,Sulaymaniyah,1,1
+random_drop,1,0.9377883513057443,Sulaymaniyah,1,1
+full,2,0.9577714386698762,Sulaymaniyah,1,1
+excl_gapfilled,2,0.9475714170735574,Sulaymaniyah,1,1
+random_drop,2,0.9502986713278545,Sulaymaniyah,1,1
+full,3,0.9123611338708277,Sulaymaniyah,1,1
+excl_gapfilled,3,0.9003999529432715,Sulaymaniyah,1,1
+random_drop,3,0.9130481688184924,Sulaymaniyah,1,1
+full,4,0.919663380217135,Sulaymaniyah,1,1
+excl_gapfilled,4,0.9160473597280427,Sulaymaniyah,1,1
+random_drop,4,0.9200698392662011,Sulaymaniyah,1,1
